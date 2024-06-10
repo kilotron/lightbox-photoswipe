@@ -8,6 +8,29 @@ class ExifHelper
 {
     private $exifData;
 
+    private static $deprecatedOrUnmappedProperties = [
+        'GPSVersion' => 'GPSVersionID',
+        'ISOSpeedRatings' => 'PhotographicSensitivity',
+        'UndefinedTag:0x8830' => 'SensitivityType',
+        'UndefinedTag:0x8832' => 'RecommendedExposureIndex',
+        'UndefinedTag:0x9010' => 'OffsetTime',
+        'UndefinedTag:0x9011' => 'OffsetTimeOriginal',
+        'UndefinedTag:0x9012' => 'OffsetTimeDigitized',
+        'UndefinedTag:0x9400' => 'Temperature',
+        'UndefinedTag:0x9401' => 'Humidity',
+        'UndefinedTag:0x9402' => 'Pressure',
+        'UndefinedTag:0x9403' => 'WaterDepth',
+        'UndefinedTag:0x9404' => 'Acceleration',
+        'UndefinedTag:0x9405' => 'CameraElevationAngle',
+        'UndefinedTag:0xA430' => 'CameraOwnerName',
+        'UndefinedTag:0xA431' => 'BodySerialNumber',
+        'UndefinedTag:0xA432' => 'LensSpecification',
+        'UndefinedTag:0xA433' => 'LensMake',
+        'UndefinedTag:0xA434' => 'LensModel',
+        'UndefinedTag:0xA435' => 'LensSerialNumber',
+        'UndefinedTag:0xA500' => 'Gamma',
+    ];
+
     /**
      * Try to read EXIF data from image
      */
@@ -16,6 +39,12 @@ class ExifHelper
         $this->exifData = false;
         if (function_exists('exif_read_data')) {
             $this->exifData = @exif_read_data($file, 'EXIF', true);
+            foreach (static::$deprecatedOrUnmappedProperties as $deprecatedOrUnmappedProperty => $newProperty) {
+                if (isset($this->exifData['EXIF'][$deprecatedOrUnmappedProperty])) {
+                    $this->exifData['EXIF'][$newProperty] = $this->exifData['EXIF'][$deprecatedOrUnmappedProperty];
+                    unset($this->exifData['EXIF'][$deprecatedOrUnmappedProperty]);
+                }
+            }
         }
 
         if($this->exifData) {
@@ -60,6 +89,20 @@ class ExifHelper
         }
 
         return $camera;
+    }
+
+    /**
+     * Get the lens model
+     */
+    function getLens()
+    {
+        $lens = '';
+
+        if (isset($this->exifData['EXIF']['LensModel'])) {
+            $lens = $this->exifData['EXIF']['LensModel'];
+        }
+
+        return $lens ;
     }
 
     /**
@@ -181,16 +224,17 @@ class ExifHelper
     /**
      * Build caption string based on given parameters
      */
-    function buildCaptionString($focal, $fstop, $shutter, $iso, $date, $camera, $includeDate)
+    function buildCaptionString($focal, $fstop, $shutter, $iso, $date, $camera, $lens)
     {
         $caption = '';
 
         $this->addToCaption($caption, $camera, 'camera');
+        $this->addToCaption($caption, $lens, 'lens');
         $this->addToCaption($caption, $focal, 'focal');
         $this->addToCaption($caption, $fstop, 'fstop');
         $this->addToCaption($caption, $shutter, 'shutter');
         $this->addToCaption($caption, $iso, 'iso');
-        if ($includeDate) {
+        if ('' !== $date) {
             $dateTimeValue = date_create_from_format('Y-m-d H:i:s', $date);
             if (false !== $dateTimeValue) {
                 $dateCaption = date_i18n( get_option( 'date_format' ), $dateTimeValue->getTimestamp());

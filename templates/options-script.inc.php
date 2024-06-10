@@ -9,14 +9,15 @@
         }
     }
 
-    function lbwpsUpdateExifDateCheck(checkbox)
+    function lbwpsUpdateExifCheck(checkbox)
     {
-        let showExifDate = document.getElementById("lightbox_photoswipe_showexif_date");
-        if (checkbox.checked) {
-            showExifDate.disabled = false;
-        } else {
-            showExifDate.disabled = true;
-        }
+        document.getElementById("lightbox_photoswipe_showexif_camera").disabled = !checkbox.checked;
+        document.getElementById("lightbox_photoswipe_showexif_lens").disabled = !checkbox.checked;
+        document.getElementById("lightbox_photoswipe_showexif_shutter").disabled = !checkbox.checked;
+        document.getElementById("lightbox_photoswipe_showexif_fstop").disabled = !checkbox.checked;
+        document.getElementById("lightbox_photoswipe_showexif_focal").disabled = !checkbox.checked;
+        document.getElementById("lightbox_photoswipe_showexif_iso").disabled = !checkbox.checked;
+        document.getElementById("lightbox_photoswipe_showexif_date").disabled = !checkbox.checked;
     }
 
     function lbwpsSwitchTab(tab)
@@ -84,7 +85,7 @@
     }
 
     lbwpsUpdateDescriptionCheck(document.getElementById("lightbox_photoswipe_show_caption"));
-    lbwpsUpdateExifDateCheck(document.getElementById("lightbox_photoswipe_showexif"));
+    lbwpsUpdateExifCheck(document.getElementById("lightbox_photoswipe_showexif"));
     lbwpsUpdateCurrentTab();
     lbwpsUpdateVersion();
 
@@ -95,7 +96,7 @@
         lbwpsUpdateDescriptionCheck(event.target);
     });
     document.getElementById('lightbox_photoswipe_showexif').addEventListener('click', (event) => {
-        lbwpsUpdateExifDateCheck(event.target)
+        lbwpsUpdateExifCheck(event.target)
     });
     document.getElementById('lightbox_photoswipe_version-0').addEventListener('click', (event) => {
         lbwpsUpdateVersion()

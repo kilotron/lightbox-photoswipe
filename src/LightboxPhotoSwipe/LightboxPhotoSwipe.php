@@ -538,6 +538,7 @@ class LightboxPhotoSwipe
                         'imageSize'       => $imageSize,
                         'fileSmall'       => $fileSmall,
                         'exifCamera'      => '',
+                        'exifLens'        => '',
                         'exifFocal'       => '',
                         'exifFstop'       => '',
                         'exifShutter'     => '',
@@ -548,6 +549,7 @@ class LightboxPhotoSwipe
                     if (in_array($extension, ['jpg', 'jpeg', 'jpe', 'tif', 'tiff', 'webp'])) {
                         if ($this->exifHelper->readExifDataFromFile($file.$params, $extension)) {
                             $imgDetails['exifCamera']   = $this->exifHelper->getCamera();
+                            $imgDetails['exifLens']     = $this->exifHelper->getLens();
                             $imgDetails['exifFocal']    = $this->exifHelper->getFocalLength();
                             $imgDetails['exifFstop']    = $this->exifHelper->getFstop();
                             $imgDetails['exifShutter']  = $this->exifHelper->getShutter();
@@ -614,13 +616,13 @@ class LightboxPhotoSwipe
                 }
                 if ('1' === $this->optionsManager->getOption('showexif')) {
                     $exifCaption = $this->exifHelper->buildCaptionString(
-                        $exifFocal,
-                        $exifFstop,
-                        $exifShutter,
-                        $exifIso,
-                        $exifDateTime,
-                        $exifCamera,
-                        '1' === $this->optionsManager->getOption('showexif_date')
+                        '1' === $this->optionsManager->getOption('showexif_focal') ? $exifFocal : '',
+                        '1' === $this->optionsManager->getOption('showexif_fstop') ? $exifFstop : '',
+                        '1' === $this->optionsManager->getOption('showexif_shutter') ? $exifShutter : '',
+                        '1' === $this->optionsManager->getOption('showexif_iso') ? $exifIso : '',
+                        '1' === $this->optionsManager->getOption('showexif_date') ? $exifDateTime : '',
+                        '1' === $this->optionsManager->getOption('showexif_camera') ? $exifCamera : '',
+                        '1' === $this->optionsManager->getOption('showexif_lens') ? $exifLens : ''
                     );
                     if ($exifCaption != '') {
                         $exifCaption = apply_filters('lbwps_caption_exif', $exifCaption, $id);

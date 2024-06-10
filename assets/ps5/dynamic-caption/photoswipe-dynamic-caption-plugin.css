@@ -55,6 +55,9 @@
 .pswp__caption,
 .pswp__caption__exif {
   padding-bottom: 0.5em;
+  font-size: 15px;
+  line-height: 25px;
+  color: #CCC;
 }
 
 .pswp__caption__exif_camera {
@@ -65,6 +68,16 @@
   background-repeat: no-repeat;
   background-size: 1.2em 1.2em;
   background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZmlsbD0iI2NjY2NjYyIgZD0ibTQsNWwzLDBsMiwtMmw2LDBsMiwybDMsMGEyLDIgMCAwIDEgMiwybDAsMTJhMiwyIDAgMCAxIC0yLDJsLTE2LDBhMiwyIDAgMCAxIC0yLC0ybDAsLTEyYTIsMiAwIDAgMSAyLC0ybTgsM2E1LDUgMCAwIDAgLTUsNWE1LDUgMCAwIDAgNSw1YTUsNSAwIDAgMCA1LC01YTUsNSAwIDAgMCAtNSwtNW0wLDJhMywzIDAgMCAxIDMsM2EzLDMgMCAwIDEgLTMsM2EzLDMgMCAwIDEgLTMsLTNhMywzIDAgMCAxIDMsLTN6Ii8+PC9zdmc+);
+}
+
+.pswp__caption__exif_lens {
+  padding-left: 1.5em;
+  padding-right: 0.5em;
+  white-space: nowrap;
+  background-position: 0 center;
+  background-repeat: no-repeat;
+  background-size: 1.2em 1.2em;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjY2NjY2NjIiBkPSJNMTIgMkM2LjQ4IDIgMiA2LjQ4IDIgMTJzNC40OCAxMCAxMCAxMCAxMC00LjQ4IDEwLTEwUzE3LjUyIDIgMTIgMnoiPjwvcGF0aD48L3N2Zz4=);
 }
 
 .pswp__caption__exif_focal {
